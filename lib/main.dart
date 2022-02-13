@@ -7,27 +7,48 @@ main() => runApp(PerguntaApp());
 
 class _PerguntaAppState extends State<PerguntaApp> {
   int _pergunta = 0;
+  int _pontuacao = 0;
   final List<Map<String, dynamic>> _perguntas = [
     {
       "texto": "Qual é a sua cor favorita?",
-      "respostas": ['azul', 'vermelho', 'verde'],
+      "respostas": [
+        {"texto": "azul", "nota": 10},
+        {"texto": "vermelho", "nota": 5},
+        {"texto": "verde", "nota": 3},
+      ]
     },
     {
       "texto": "Qual é a seu animal favorito?",
-      "respostas": ['gato', 'cachorro', 'peixe'],
+      "respostas": [
+        {"texto": "gato", "nota": 10},
+        {"texto": "cachorro", "nota": 5},
+        {"texto": "peixe", "nota": 3},
+      ]
     },
     {
       "texto": "Qual é a sua moto favorita?",
-      "respostas": ['xl1200ns', 'mt07', 'cb1000r'],
+      "respostas": [
+        {"texto": "xl1200ns", "nota": 10},
+        {"texto": "cb1000r", "nota": 5},
+        {"texto": "mt07", "nota": 3},
+      ],
     },
   ];
 
-  void _responder() {
+  void _responder(int? pontuacao) {
     if (existePergunta) {
       setState(() {
         _pergunta++;
+        _pontuacao += pontuacao!;
       });
     }
+  }
+
+  void _reinicar() {
+    setState(() {
+      _pergunta = 0;
+      _pontuacao = 0;
+    });
   }
 
   bool get existePergunta {
@@ -45,7 +66,7 @@ class _PerguntaAppState extends State<PerguntaApp> {
                 pergunta: _pergunta,
                 responder: _responder,
               )
-            : const Resultado(texto: 'Parabéns!'),
+            : Resultado(pontuacao: _pontuacao, reiniciar: _reinicar),
       ),
     );
   }
